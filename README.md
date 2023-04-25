@@ -39,8 +39,9 @@ cp wallets-example.json wallets.json
 1. Default: ``` hardhat deploy-default --network moonbeam ```
 2. Nft ``` hardhat deploy-nft --network moonbeam ```
 3. Token  ``` hardhat deploy-token --network moonbeam ```
-4. Layer Zero create tokens and bridge  ```hardhathardhat deploy-LZ --network moonbeam --bridgenetwork polygon --ether 1.2``` Где **netwok
-   ** - єто с какой сети бридж, **bridgenetwork** - куда бриджить, **ether** обезательная комса которая будет снята для успешной транзы с
+4. Layer Zero create tokens and bridge  ```hardhathardhat deploy-LZ --network moonbeam --bridgenetwork polygon --ether 1.2``` Где  
+   **netwok** - єто с какой сети бридж, **bridgenetwork** - куда бриджить, **ether** обезательная комса которая будет снята для успешной
+   транзы с
    сети указаной в **netwok** (рекомендую ставить от 1)
    Для того чтобы понимать с какой сети в какую возможно бриджить заходим в доку где endpoints должны быть
    разные https://layerzero.gitbook.io/docs/technical-reference/mainnet/supported-chain-ids
@@ -49,8 +50,7 @@ cp wallets-example.json wallets.json
 
 ### В полной версии доступно
 
-1. Бридж своего задеплоиного токена через LayerZero в указаных сетях
-2. Деплой контрактов на зксинк
-3. Добавление в пулы своих токенов
+1. Деплой контрактов на зксинк
+2. Добавление в пулы своих токенов
 
 - ПС: Это мини фремворк поэтому любое взаемодествие с контрактами можно дополнять
