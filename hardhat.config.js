@@ -44,6 +44,7 @@ module.exports = {
     moonbeam: {
       url: 'https://rpc.api.moonbeam.network',
       accounts: wallets.keys,
+      gasMultiplier: 1.3
 
 
     },

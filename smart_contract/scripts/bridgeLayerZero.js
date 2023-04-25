@@ -1,6 +1,22 @@
 const hre = require("hardhat");
 const destIds = require("../../zkSyncIds.json");
 
+
+const bridge = async (bridgeContract, signer3, ether, wasError = false) => {
+  await new Promise(resolve => setTimeout(resolve, 35000))
+
+  try {
+    return await bridgeContract.connect(signer3).bridge(10000, { value: hre.ethers.utils.parseEther(ether) });
+  } catch (e) {
+
+    if (!wasError) {
+      const wasError = true;
+      return await bridge(bridgeContract, signer3, ether, wasError)
+    } else {
+      console.error(e);
+    }
+  }
+}
 exports.main = async (bridgeToNetwork, ether) => {
   const network = hre.network.name;
   const signers = await hre.ethers.getSigners();
@@ -36,11 +52,14 @@ exports.main = async (bridgeToNetwork, ether) => {
       //bridged
       hre.changeNetwork(network);
       const signer3 = await hre.ethers.getSigner(signer.address);
-      await new Promise(resolve => setTimeout(resolve, 20000))
+
       const bridgeContract = await hre.ethers.getContractAt('LayerZero', deployed1.address, signer3);
 
-      const hash = await bridgeContract.connect(signer3).bridge(10000, { value: hre.ethers.utils.parseEther(ether) });
-      console.log(`Token successfully  bridget from ${deployed1.address}  to ${bridgeToNetwork} ${deployed2.address} tx hash: ${hash.hash}`)
+      const hash = await bridge(bridgeContract, signer3, ether);
+
+      if (hash) {
+        console.log(`Token successfully  bridget from ${network} ${deployed1.address}  to ${bridgeToNetwork} ${deployed2.address} tx hash: ${hash.hash}`)
+      }
 
 
     } catch (e) {
