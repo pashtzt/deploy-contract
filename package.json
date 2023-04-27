@@ -23,6 +23,7 @@
   "dependencies": {
     "@layerzerolabs/solidity-examples": "^0.0.10",
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
-    "hardhat-change-network": "^0.0.7"
+    "hardhat-change-network": "^0.0.7",
+    "inquirer": "^8.0.0"
   }
 }

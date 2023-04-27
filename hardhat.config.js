@@ -55,7 +55,7 @@ module.exports = {
     },
 
     moonbeam: {
-      url: 'https://rpc.api.moonbeam.network',
+      url: 'https://moonbeam.api.onfinality.io/public',
       accounts: wallets.keys,
       gasMultiplier: 1.3
 
@@ -89,12 +89,11 @@ module.exports = {
       ethNetwork: "goerli", // Can also be the RPC URL of the Ethereum network (e.g. `https://goerli.infura.io/v3/<API_KEY>`)
       zksync: true,
     },
-    zkSync: {
+
+    zkSyncMainnet: {
       url: "https://zksync2-mainnet.zksync.io",
       ethNetwork: "mainnet",
       zksync: true,
-      accounts: wallets.keys,
-
     },
 
 

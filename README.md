@@ -6,6 +6,7 @@
 2. Nft contract деплой и минт
 3. Token contract деплой
 4. LayerZero bridge создание своего токена на 2 указаных сетях и бридж между ними
+5. ZkSync contract деплой
 
 ---
 
@@ -45,6 +46,7 @@ cp wallets-example.json wallets.json
    сети указаной в **netwok** (рекомендую ставить от 1)
    Для того чтобы понимать с какой сети в какую возможно бриджить заходим в доку где endpoints должны быть
    разные https://layerzero.gitbook.io/docs/technical-reference/mainnet/supported-chain-ids
+5. Zk Deploy  ```hardhat deploy-ZkSync --network zkSyncMainnet```
 
 ---
 

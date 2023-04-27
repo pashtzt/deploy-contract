@@ -1,7 +1,7 @@
 const { Wallet, utils } = require("zksync-web3");
 const { Deployer } = require("@matterlabs/hardhat-zksync-deploy");
 const hre = require("hardhat");
-0
+
 
 exports.main = async (params, signer, prtKey) => {
 
@@ -19,13 +19,13 @@ exports.main = async (params, signer, prtKey) => {
   const deploymentFee = await deployer.estimateDeployFee(artifact, [greeting]);
   // OPTIONAL: Deposit funds to L2
   // Comment this block if you already have funds on zkSync.
-  const depositHandle = await deployer.zkWallet.deposit({
-    to: deployer.zkWallet.address,
-    token: utils.ETH_ADDRESS,
-    amount: deploymentFee.mul(2),
-  });
-  // Wait until the deposit is processed on zkSync
-  await depositHandle.wait();
+  // const depositHandle = await deployer.zkWallet.deposit({
+  //   to: deployer.zkWallet.address,
+  //   token: utils.ETH_ADDRESS,
+  //   amount: deploymentFee.mul(2),
+  // });
+  // // Wait until the deposit is processed on zkSync
+  // await depositHandle.wait();
 
   const parsedFee = hre.ethers.utils.formatEther(deploymentFee.toString());
   console.log(`The deployment is estimated to cost ${parsedFee} ETH`);

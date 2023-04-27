@@ -1,5 +1,7 @@
-const wallets = require("../../wallets.json");
 const { Wallet } = require("ethers");
+const inquirer = require('inquirer');
+
+
 exports.runScript = async (filename, params) => {
   const hre = require("hardhat");
   const wallets = require("../../wallets.json");
@@ -23,18 +25,20 @@ exports.runScript = async (filename, params) => {
         await main(params, signer, prtKey)
       } catch (e) {
         console.error(e);
-        await new Promise((resolve, reject) => {
-          const rl = readline.createInterface(process.stdin, process.stdout);
-          rl.question(`Error on ${walletAddress}. Do you want repeat (0) on this wallet or continue running on others (1) `, (answer) => {
-            rl.close();
-            if (answer === '0') {
-              i--;
-            }
-            resolve(true)
 
-          });
 
-        })
+        const answer = await inquirer.prompt({
+          name: 'result',
+          type: 'list',
+          message: `Error on ${walletAddress}. Do you want  repeat or skip on this wallet?`,
+          choices: [
+            'Skip',
+            'Repeat',
+          ],
+        });
+        if (answer['result'] === 'Repeat') {
+          i--;
+        }
 
       }
 

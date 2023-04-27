@@ -27,7 +27,6 @@ exports.main = async (params, signer) => {
   const LZero2 = await hre.ethers.getContractFactory("LayerZero");
   const destChainId1 = destIds[network]
   const destChainId2 = destIds[bridgeToNetwork]
-
   const deployed1 = await LZero1.connect(signer).deploy(destChainId2.chainId, destChainId1.endpoint);
   await deployed1.deployed();
   console.log("Deploy LZero1 deployed to:", network, deployed1.address);
