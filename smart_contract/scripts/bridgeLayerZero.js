@@ -19,7 +19,7 @@ const bridge = async (bridgeContract, signer3, ether, wasError = false) => {
 }
 //bridgeToNetwork, ether
 exports.main = async (params, signer) => {
-  const bridgeToNetwork = params['bridgeToNetwork'];
+  const bridgeToNetwork = params['bridgenetwork'];
   const ether = params['ether'];
 
   const network = hre.network.name;
