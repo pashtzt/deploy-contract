@@ -39,7 +39,7 @@ cp wallets-example.json wallets.json
 1. Default: ``` hardhat deploy-default --network moonbeam ```
 2. Nft ``` hardhat deploy-nft --network moonbeam ```
 3. Token  ``` hardhat deploy-token --network moonbeam ```
-4. Layer Zero create tokens and bridge  ```hardhathardhat deploy-LZ --network moonbeam --bridgenetwork polygon --ether 1.2``` Где  
+4. Layer Zero create tokens and bridge  ```hardhat deploy-LZ --network moonbeam --bridgenetwork polygon --ether 1.2``` Где  
    **netwok** - єто с какой сети бридж, **bridgenetwork** - куда бриджить, **ether** обезательная комса которая будет снята для успешной
    транзы с
    сети указаной в **netwok** (рекомендую ставить от 1)
