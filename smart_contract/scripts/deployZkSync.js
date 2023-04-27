@@ -1,53 +1,44 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
-const { saveFrontendFiles } = require('./utils');
+const { Wallet, utils } = require("zksync-web3");
+const { Deployer } = require("@matterlabs/hardhat-zksync-deploy");
 const hre = require("hardhat");
-const { exit } = require("process");
-const relayAddress = '0xBf175FCC7086b4f9bd59d5EAE8eA67b8f940DE0d';
+0
 
-async function main() {
+exports.main = async (params, signer, prtKey) => {
 
-  // Hardhat always runs to compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+  // Initialize the wallet.
+  const wallet = new Wallet(prtKey);
 
-  // We get the contract to deploy
-  const CustomChallenge = await hre.ethers.getContractFactory("CustomChallenge");
-  const customChallenge = await CustomChallenge.deploy(relayAddress);
-  await customChallenge.deployed();
+  // Create deployer object and load the artifact of the contract you want to deploy.
+  const deployer = new Deployer(hre, wallet);
 
-  const PriceChallenge = await hre.ethers.getContractFactory("PriceChallenge");
+  const artifact = await deployer.loadArtifact('DeployZk');
 
 
-  let startTime = new Date();
-  startTime.setUTCHours(0, 0, 0, 0);
-  startTime = startTime.getTime() / 1000;
-  console.log(startTime)
-  return false;
+  // Estimate contract deployment fee
+  const greeting = "Hi there!";
+  const deploymentFee = await deployer.estimateDeployFee(artifact, [greeting]);
+  console.log(`The deployment is estimated to cost ${deploymentFee} ETH`);
+  // OPTIONAL: Deposit funds to L2
+  // Comment this block if you already have funds on zkSync.
+  const depositHandle = await deployer.zkWallet.deposit({
+    to: deployer.zkWallet.address,
+    token: utils.ETH_ADDRESS,
+    amount: deploymentFee.mul(2),
+  });
+  // Wait until the deposit is processed on zkSync
+  await depositHandle.wait();
 
-  const priceChallenge = await PriceChallenge.deploy(startTime);
-  await priceChallenge.deployed();
+  const parsedFee = hre.ethers.utils.formatEther(deploymentFee.toString());
+  console.log(`The deployment is estimated to cost ${parsedFee} ETH`);
 
+  const greeterContract = await deployer.deploy(artifact, [greeting]);
 
-  console.log("CustomChallenge deployed to:", customChallenge.address);
-  saveFrontendFiles(customChallenge, "CustomChallenge");
+  //obtain the Constructor Arguments
+  console.log("constructor args:" + greeterContract.interface.encodeDeploy([greeting]));
 
-  console.log("PriceChallenge deployed to:", priceChallenge.address);
-  saveFrontendFiles(priceChallenge, "PriceChallenge");
+  // Show the contract info.
+  const contractAddress = greeterContract.address;
+  console.log(`${artifact.contractName} was deployed to ${contractAddress}`);
+
 
 }
-
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });

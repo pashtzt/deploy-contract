@@ -5,29 +5,14 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
-exports.main = async () => {
+exports.main = async (params, signer) => {
 
-  const signers = await hre.ethers.getSigners();
   const Token = await hre.ethers.getContractFactory("DeployToken");
 
-  for (const signer of signers) {
 
-    try {
-
-
-      const deployed = await Token.deploy();
-      await deployed.deployed();
-      console.log("DeployToken deployed to:", deployed.address);
-
-
-    } catch (e) {
-
-      console.error(e);
-
-
-    }
-
-  }
+  const deployed = await Token.connect(signer).deploy();
+  await deployed.deployed();
+  console.log("DeployToken deployed to:", deployed.address);
 
 
 }

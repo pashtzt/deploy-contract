@@ -4,7 +4,10 @@ require("@nomiclabs/hardhat-etherscan");
 const wallets = require("./wallets.json");
 require("hardhat-change-network");
 require("hardhat/config")
+require("@matterlabs/hardhat-zksync-deploy");
+require("@matterlabs/hardhat-zksync-solc");
 // const { polygon, moonbeam } = require('wagmi/chains')
+const { runScript } = require('./smart_contract/scripts/index');
 
 
 // You need to export an object to set up your config
@@ -21,13 +24,23 @@ module.exports = {
       runs: 200
     }
   },
-
+  zksolc: {
+    version: "1.3.6",
+    compilerSource: "binary",
+    settings: {},
+  },
   networks: {
     goerli: {
       url: "https://endpoints.omniatech.io/v1/eth/goerli/public",
       accounts: wallets.keys,
     },
+    zkTestnet: {
+      url: "https://zksync2-testnet.zksync.dev",
+      ethNetwork: "goerli",
+      zksync: true,
+      accounts: wallets.keys,
 
+    },
     baseTest: {
       url: 'https://goerli.base.org',
       accounts: wallets.keys,
@@ -80,6 +93,8 @@ module.exports = {
       url: "https://zksync2-mainnet.zksync.io",
       ethNetwork: "mainnet",
       zksync: true,
+      accounts: wallets.keys,
+
     },
 
 
@@ -98,26 +113,23 @@ module.exports = {
 
 };
 
-task("deploy-default", "Deploy Default contract")
-  .setAction(async () => {
-    const { main } = require('./smart_contract/scripts/deployDefault.js')
-    await main();
 
+task("deploy-default", "Deploy Default contract")
+  .setAction(async (taskArgs) => {
+    await runScript('deployDefault.js', taskArgs);
   });
 
 
 task("deploy-nft", "Deploy Nft Contract and mint")
-  .setAction(async () => {
-    const { main } = require('./smart_contract/scripts/deployNft.js')
-    await main();
-
+  .setAction(async (taskArgs) => {
+    await runScript('deployNft.js', taskArgs);
   });
 
 
 task("deploy-token", "Deploy Token Contract")
-  .setAction(async () => {
-    const { main } = require('./smart_contract/scripts/deployToken.js')
-    await main();
+  .setAction(async (taskArgs) => {
+
+    await runScript('deployToken.js', taskArgs);
 
   });
 
@@ -126,17 +138,21 @@ task("deploy-LZ", "Deploy && bridge Layer Zero")
   .addParam('bridgenetwork', 'Network to bridge. Network endpoint must be different. Details https://layerzero.gitbook.io/docs/technical-reference/mainnet/supported-chain-ids')
   .addParam('ether', 'Required  ether from 0.5 to 1.5 depend of load network')
   .setAction(async (taskArgs) => {
-    const { main } = require('./smart_contract/scripts/bridgeLayerZero.js')
-    await main(taskArgs['bridgenetwork'], taskArgs['ether']);
+    await runScript('bridgeLayerZero.js', taskArgs);
+
 
   });
 
-task("deploy-ZkSync", "Deploy Default")
-  .setAction(async () => {
-    const { main } = require('./smart_contract/scripts/bridgeLayerZero.js')
-    await main();
+
+task("deploy-ZkSync", "Deploy ZkSync")
+  .setAction(async (taskArgs) => {
+    await runScript('deployZkSync.js', taskArgs);
 
   });
+
+
+
+
 
 
 
