@@ -99,8 +99,4 @@ src/contractsData/*
 wallets.json
 
 #contracts
-DeployNft.sol
-DeployToken.sol
-DeployZk.sol
-LayerZero.sol
-DefaultContract.sol
+smart_contract/contracts/
