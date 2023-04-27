@@ -17,7 +17,6 @@ exports.main = async (params, signer, prtKey) => {
   // Estimate contract deployment fee
   const greeting = "Hi there!";
   const deploymentFee = await deployer.estimateDeployFee(artifact, [greeting]);
-  console.log(`The deployment is estimated to cost ${deploymentFee} ETH`);
   // OPTIONAL: Deposit funds to L2
   // Comment this block if you already have funds on zkSync.
   const depositHandle = await deployer.zkWallet.deposit({

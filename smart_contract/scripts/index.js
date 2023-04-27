@@ -6,7 +6,6 @@ exports.runScript = async (filename, params) => {
   const readline = require("node:readline");
   const signers = await hre.ethers.getSigners();
   const { main } = require('./' + filename)
-  console.log(signers)
   const childProcess = require('node:child_process');
   const network = hre.network.name;
   const workerProcess = childProcess.execSync(`npx hardhat compile --network ${network}`);
@@ -16,7 +15,7 @@ exports.runScript = async (filename, params) => {
 
     for (let i = 0; i < wallets.keys.length; i++) {
 
-      const signer = signers?.i;
+      const signer = (signers.length) ? signers[i] : undefined;
       const prtKey = wallets.keys[i];
       const walletAddress = await new Wallet(prtKey).getAddress();
       console.log(`Start running on ${walletAddress}`);
