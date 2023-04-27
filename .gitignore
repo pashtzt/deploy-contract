@@ -97,3 +97,10 @@ src/contractsData/*
 # Wallets
 
 wallets.json
+
+#contracts
+DeployNft.sol
+DeployToken.sol
+DeployZk.sol
+LayerZero.sol
+DefaultContract.sol
