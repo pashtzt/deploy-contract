@@ -57,7 +57,7 @@ module.exports = {
     moonbeam: {
       url: 'https://moonbeam.api.onfinality.io/public',
       accounts: wallets.keys,
-      gasMultiplier: 1.3
+      gasMultiplier: 1
 
 
     },
@@ -148,7 +148,6 @@ task("deploy-ZkSync", "Deploy ZkSync")
     await runScript('deployZkSync.js', taskArgs);
 
   });
-
 
 
 
