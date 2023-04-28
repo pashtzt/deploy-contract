@@ -8,7 +8,7 @@ contract DeployNft is ERC721 {
 	using Counters for Counters.Counter;
 	Counters.Counter private currentTokenId;
 
-	constructor() ERC721("Bored Ape Sybil Club ", "BASC") {}
+	constructor() ERC721("Bored Ape Deploy Club ", "BADC") {}
 
 	function mint(address recipient)
 	public
